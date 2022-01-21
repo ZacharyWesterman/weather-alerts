@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 
 import requests, json, time
-from datetime import date
+import datetime
 from twilio.rest import Client
 
 with open('settings.json', 'r') as fp: SETTINGS = json.load(fp)
 with open('credentials.json', 'r') as fp: CREDENTIALS = json.load(fp)
 with open('people.json', 'r') as fp: PEOPLE = json.load(fp)
+try:
+	with open('last_sent.json', 'r') as fp: LAST_SENT = json.load(fp)
+except:
+	LAST_SENT = {}
 
 def alert_message(days):
 	global SETTINGS
@@ -32,12 +36,19 @@ def get_weather(lat, lon):
 
 def get_temps_below_min(weather):
 	global SETTINGS
-	return [ date.fromtimestamp(i['dt']) for i in weather['daily'] if (i['temp']['min'] <= SETTINGS['openweathermap']['min_temp']) and (i['dt'] > time.time()) ]
+	return [ datetime.date.fromtimestamp(i['dt']) for i in weather['daily'] if (i['temp']['min'] <= SETTINGS['openweathermap']['min_temp']) and (i['dt'] > time.time()) ]
 
 #Loop through all people to check for low temps in their area
 for name in PEOPLE:
 	person = PEOPLE[name]
 	if 'exclude' in person and person['exclude']: continue
+
+	current_date = datetime.datetime.now()
+	if name in LAST_SENT:
+		prev = datetime.datetime.strptime(LAST_SENT[name], '%Y-%m-%d %H:%M:%S')
+		# print(prev + datetime.timedelta(hours=23), current_date)
+		if (prev + datetime.timedelta(hours=23)) >= current_date:
+			continue #Don't send another text to this person if they've already been alerted today.
 
 	#Get the weather for the current recipient's latitude/longitude
 	weather = get_weather(person['lat'], person['lon'])
@@ -55,3 +66,10 @@ for name in PEOPLE:
 		msg = alert_message(low_list)
 
 		result = sms_client.messages.create(body = msg, from_ = sender, to = recipient)
+
+		#log when we last sent each person a text
+		LAST_SENT[name] = current_date.strftime('%Y-%m-%d %H:%M:%S')
+
+#log when we last sent each person a text
+with open('last_sent.json', 'w') as fp:
+	json.dump(LAST_SENT, fp, indent=2)
