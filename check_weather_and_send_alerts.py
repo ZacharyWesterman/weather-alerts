@@ -46,8 +46,7 @@ for name in PEOPLE:
 	current_date = datetime.datetime.now()
 	if name in LAST_SENT:
 		prev = datetime.datetime.strptime(LAST_SENT[name], '%Y-%m-%d %H:%M:%S')
-		# print(prev + datetime.timedelta(hours=23), current_date)
-		if (prev + datetime.timedelta(hours=23)) >= current_date:
+		if (prev + datetime.timedelta(days=1)).date() > current_date.date():
 			continue #Don't send another text to this person if they've already been alerted today.
 
 	#Get the weather for the current recipient's latitude/longitude
