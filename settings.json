@@ -2,7 +2,8 @@
 	"openweathermap": {
 		"api_url": "https://api.openweathermap.org/data/2.5/onecall",
 		"units": "imperial",
-		"exclude": "current,minutely,hourly",
-		"min_temp": 32.0
-	}
+		"exclude": "current,minutely,hourly"
+	},
+	"min_temp": 32.0,
+	"max_temp": 110.0
 }

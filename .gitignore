@@ -1,3 +1,5 @@
 credentials.json
 people.json
 last_sent.json
+venv
+__pycache__
