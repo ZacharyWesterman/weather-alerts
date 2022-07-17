@@ -6,6 +6,9 @@ import temperature
 import alerts
 
 if __name__ == '__main__':
+	sent_list = []
+	ADMIN = 'zachary'
+
 	for name, user in users.all():
 
 		if alerts.sent_today(name):
@@ -29,3 +32,9 @@ if __name__ == '__main__':
 			msg += '\nChecking local forecasts is recommended.'
 
 			alerts.send(name, msg)
+			if name != ADMIN:
+				sent_list += [name]
+
+	if len(sent_list):
+		msg = 'Sent alerts to ' + ', '.join(sent_list)
+		alerts.send(ADMIN, msg)
