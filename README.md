@@ -53,6 +53,6 @@ Basically, include the plus, country code and extension, but not any spaces or p
 ```
 Note that the `exclude`, `min` and `max` attributes are optional, as they have default values.
 
-`exclude` (true/false, default is false): If true, do not send alerts to this person.
-`min` (number or null, default is 32.0): Send temp alerts if temp is at or below this. If null, do not send alerts about low temps.
-`max` (number or null, default is 110.0): Send temp alerts if temp is at or above this. If null, do not send alerts about high temps.
+* `exclude` (true/false, default is false): If true, do not send alerts to this person.
+* `min` (number or null, default is 32.0): Send temp alerts if temp is at or below this. If null, do not send alerts about low temps.
+* `max` (number or null, default is 110.0): Send temp alerts if temp is at or above this. If null, do not send alerts about high temps.
