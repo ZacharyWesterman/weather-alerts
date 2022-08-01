@@ -45,8 +45,14 @@ Basically, include the plus, country code and extension, but not any spaces or p
 		"lat": 12.34,
 		"lon": 12.34,
 		"phone": "+ABBBCCCDDDD",
+		"max": 100,
+		"min": null,
 		"exclude": true
 	}
 }
 ```
-Note that the `exclude` attribute is optional, but if it is set to true, then that item will be ignored (exactly as if it was not in the config at all).
+Note that the `exclude`, `min` and `max` attributes are optional, as they have default values.
+
+`exclude` (true/false, default is false): If true, do not send alerts to this person.
+`min` (number or null, default is 32.0): Send temp alerts if temp is at or below this. If null, do not send alerts about low temps.
+`max` (number or null, default is 110.0): Send temp alerts if temp is at or above this. If null, do not send alerts about high temps.
