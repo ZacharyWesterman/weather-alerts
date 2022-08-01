@@ -8,7 +8,7 @@ pip3 install twilio
 ## Before getting started
 
 You will need a [twilio](https://www.twilio.com/) account with at least 1 phone number to send messages from (**Note: this costs money!**).
-You will also need an [openweathermap](https://openweathermap.org/) api key. The free option should be more than enough, but do note that the weather will be checked exactly once for each item in `person.json`.
+You will also need an [openweathermap](https://openweathermap.org/) api key. The free option should be more than enough, but do note that the weather will be checked once for every unique latitude/longitude in `person.json`.
 
 ## Initial setup
 
