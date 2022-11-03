@@ -4,6 +4,6 @@
 		"units": "imperial",
 		"exclude": "current,minutely,hourly"
 	},
-	"min_temp": 32.0,
+	"min_temp": 34.0,
 	"max_temp": 110.0
 }
