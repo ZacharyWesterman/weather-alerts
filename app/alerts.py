@@ -1,5 +1,5 @@
-import credentials
-import users
+import .credentials
+import .users
 import json
 import datetime
 from twilio.rest import Client

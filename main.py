@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
-import users
-import weather
-import temperature
-import alerts
+from app import users
+from app import weather
+from app import temperature
+from app import alerts
 
 if __name__ == '__main__':
 	sent_list = []

@@ -1,5 +1,5 @@
-import settings
-import credentials
+import .settings
+import .credentials
 import requests
 import json
 
