@@ -11,11 +11,11 @@ You will also need an [openweathermap](https://openweathermap.org/) api key. The
 
 ## Initial setup
 
-To get the main script to work, a few configuration files need to be created in the root directory of this project: `credentials.json` and `people.json`.
+To get the main script to work, a few configuration files need to be created in the `data/` directory of this project: `credentials.json` and `people.json`.
 These files will contain sensitive data so **DO NOT COMMIT THEM!**
 Below are some example layouts.
 
-### credentials.json
+### data/credentials.json
 ```json
 {
 	"openweathermap": {
@@ -32,7 +32,7 @@ Below are some example layouts.
 Make sure you input the phone number as `+ABBBCCCDDDD`, not `+A (BBB) CCC-DDDD` or `(BBB) CCC-DDDD`.
 Basically, include the plus, country code and extension, but not any spaces or punctuation.
 
-### people.json
+### data/people.json
 ```json
 {
 	"person_1": {

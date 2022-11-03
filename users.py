@@ -1,6 +1,6 @@
 import json
 
-with open('people.json', 'r') as fp:
+with open('data/people.json', 'r') as fp:
 	__CONFIG = json.load(fp)
 
 def all() -> list:

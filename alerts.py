@@ -4,7 +4,7 @@ import json
 import datetime
 from twilio.rest import Client
 
-with open('last_sent.json', 'r') as fp:
+with open('data/last_sent.json', 'r') as fp:
 	__CONFIG = json.load(fp)
 
 def sent_today(name: str) -> dict:
@@ -33,5 +33,5 @@ def send(name: str, message: str) -> None:
 
 	#Log when we last sent each person a text
 	__CONFIG[name] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-	with open('last_sent.json', 'w') as fp:
+	with open('data/last_sent.json', 'w') as fp:
 		json.dump(__CONFIG, fp, indent=2)
