@@ -1,5 +1,5 @@
-import .users
-import .settings
+from . import users
+from . import settings
 from datetime import date
 import time
 
