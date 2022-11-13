@@ -15,7 +15,7 @@ To get the main script to work, a few configuration files need to be created in 
 These files will contain sensitive data so **DO NOT COMMIT THEM!**
 Below are some example layouts.
 
-### data/credentials.json
+### config/credentials.json
 ```json
 {
 	"openweathermap": {
@@ -30,7 +30,7 @@ Below are some example layouts.
 }
 ```
 Make sure you input the phone number as `+ABBBCCCDDDD`, not `+A (BBB) CCC-DDDD` or `(BBB) CCC-DDDD`.
-Basically, include the plus, country code and extension, but not any spaces or punctuation.
+Basically, include the plus, country code and extension, but not any spaces or punctuation. Do **NOT** commit this file!
 
 ### data/people.json
 ```json

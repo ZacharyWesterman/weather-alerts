@@ -1,17 +1,18 @@
 #!/usr/bin/env python3
 
-from app import users
-from app import weather
-from app import temperature
-from app import alerts
+from sys import argv
+from app import users, weather, temperature, alerts
 
 if __name__ == '__main__':
 	sent_list = []
 	ADMIN = 'zachary'
+	DRY_RUN = True if '--dry-run' in argv else False
 
 	for name, user in users.all():
 
 		if alerts.sent_today(name):
+			if DRY_RUN:
+				print(f'Already sent alert to {name}, skipping.')
 			continue
 
 		forecast = weather.fetch(lat=user.get('lat'), lon=user.get('lon'))
@@ -31,10 +32,14 @@ if __name__ == '__main__':
 				msg += f'\nHigh{plural} at or above {max}F on:\n' + '\n'.join(above)
 			msg += '\nChecking local forecasts is recommended.'
 
-			alerts.send(name, msg)
-			if name != ADMIN:
-				sent_list += [name]
+			if DRY_RUN:
+				alerts.send(name, msg)
+				if name != ADMIN:
+					sent_list += [name]
+			else:
+				print(name)
+				print(msg)
 
-	if len(sent_list):
+	if len(sent_list) and not DRY_RUN:
 		msg = 'Sent alerts to ' + ', '.join(sent_list)
-		alerts.send(ADMIN, msg)
+		alerts.send(ADMIN, msg, log = False)

@@ -1,6 +1,6 @@
 import json
 
-with open('data/credentials.json', 'r') as fp:
+with open('config/credentials.json', 'r') as fp:
 	__CONFIG = json.load(fp)
 
 def get(key: str) -> dict:

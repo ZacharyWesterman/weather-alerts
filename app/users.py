@@ -1,12 +1,7 @@
-import json
-
-with open('data/people.json', 'r') as fp:
-	__CONFIG = json.load(fp)
+import db
 
 def all() -> list:
-	global __CONFIG
-	return [(name, __CONFIG[name]) for name in __CONFIG if not __CONFIG[name].get('exclude')]
+	return [(data['_id'], data) for data in db.users.find({'exclude': False})]
 
 def get(name: str) -> dict:
-	global __CONFIG
-	return __CONFIG.get(name)
+	return db.users.find({'_id': name})
