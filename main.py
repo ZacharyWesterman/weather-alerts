@@ -32,7 +32,7 @@ if __name__ == '__main__':
 				msg += f'\nHigh{plural} at or above {max}F on:\n' + '\n'.join(above)
 			msg += '\nChecking local forecasts is recommended.'
 
-			if DRY_RUN:
+			if not DRY_RUN:
 				alerts.send(name, msg)
 				if name != ADMIN:
 					sent_list += [name]
