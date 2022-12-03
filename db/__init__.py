@@ -2,6 +2,7 @@ __all__ = ['users', 'alert_history', 'create_user']
 
 from pymongo import MongoClient
 import re
+from datetime import datetime
 
 client = MongoClient('mongodb://192.168.1.184:27017')
 users = client.weather.users
@@ -19,3 +20,10 @@ def create_user(*, id: str, lat: float, lon: float, phone: str, exclude: bool = 
 		'phone': f'+{phone}',
 		'exclude': exclude,
 	}
+
+def log(sent_list: list, error: str) -> None:
+	client.weather.log.insert_one({
+		'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+		'users': sent_list,
+		'error': error,
+	})

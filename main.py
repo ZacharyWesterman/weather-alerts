@@ -2,44 +2,56 @@
 
 from sys import argv
 from app import users, weather, temperature, alerts
+from db import log
 
 if __name__ == '__main__':
-	sent_list = []
-	ADMIN = 'zachary'
-	DRY_RUN = True if '--dry-run' in argv else False
+	log_sent_list = []
 
-	for name, user in users.all():
+	try:
+		sent_list = []
+		ADMIN = 'zachary'
+		DRY_RUN = True if '--dry-run' in argv else False
 
-		if alerts.sent_today(name):
-			if DRY_RUN:
-				print(f'Already sent alert to {name}, skipping.')
-			continue
+		for name, user in users.all():
 
-		forecast = weather.fetch(lat=user.get('lat'), lon=user.get('lon'))
-		below = temperature.below_user_min(name, forecast)
-		above = temperature.above_user_max(name, forecast)
+			if alerts.sent_today(name):
+				if DRY_RUN:
+					print(f'Already sent alert to {name}, skipping.')
+				continue
 
-		if len(below) or len(above):
-			min = temperature.user_min(name)
-			max = temperature.user_max(name)
+			forecast = weather.fetch(lat=user.get('lat'), lon=user.get('lon'))
+			below = temperature.below_user_min(name, forecast)
+			above = temperature.above_user_max(name, forecast)
 
-			msg = 'ZW Automated Weather Warning:'
-			if len(below):
-				plural = '' if len(below) == 1 else 's'
-				msg += f'\nLow{plural} at or below {min}F on:\n' + '\n'.join(below)
-			if len(above):
-				plural = '' if len(above) == 1 else 's'
-				msg += f'\nHigh{plural} at or above {max}F on:\n' + '\n'.join(above)
-			msg += '\nChecking local forecasts is recommended.'
+			if len(below) or len(above):
+				min = temperature.user_min(name)
+				max = temperature.user_max(name)
 
-			if not DRY_RUN:
-				alerts.send(name, msg)
-				if name != ADMIN:
-					sent_list += [name]
-			else:
-				print(name)
-				print(msg)
+				msg = 'ZW Automated Weather Warning:'
+				if len(below):
+					plural = '' if len(below) == 1 else 's'
+					msg += f'\nLow{plural} at or below {min}F on:\n' + '\n'.join(below)
+				if len(above):
+					plural = '' if len(above) == 1 else 's'
+					msg += f'\nHigh{plural} at or above {max}F on:\n' + '\n'.join(above)
+				msg += '\nChecking local forecasts is recommended.'
 
-	if len(sent_list) and not DRY_RUN:
-		msg = 'Sent alerts to ' + ', '.join(sent_list)
-		alerts.send(ADMIN, msg, log = False)
+				if not DRY_RUN:
+					alerts.send(name, msg)
+					if name != ADMIN:
+						sent_list += [name]
+					log_sent_list += [name]
+				else:
+					print(name)
+					print(msg)
+
+		if len(sent_list) and not DRY_RUN:
+			msg = 'Sent alerts to ' + ', '.join(sent_list)
+			alerts.send(ADMIN, msg, log = False)
+
+		# Always log that this pgm ran successfully
+		log(log_sent_list, None)
+
+	except Exception as e:
+		log(log_sent_list, str(e))
+		raise e
