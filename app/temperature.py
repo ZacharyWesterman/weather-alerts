@@ -5,8 +5,8 @@ import time
 
 def below_user_min(name: str, forecast: dict) -> list:
 	user = users.get(name)
-	if 'min' in user:
-		if user['min'] == None:
+	if user.get('min') is not None:
+		if user['min'] == False:
 			return []
 		min_temp = user['min']
 	else:
@@ -19,8 +19,8 @@ def below_user_min(name: str, forecast: dict) -> list:
 
 def above_user_max(name: str, forecast: dict) -> list:
 	user = users.get(name)
-	if 'max' in user:
-		if user['max'] == None:
+	if user.get('max') is not None:
+		if user['max'] == False:
 			return []
 		max_temp = user['max']
 	else:
