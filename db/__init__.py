@@ -4,7 +4,7 @@ from pymongo import MongoClient
 import re
 from datetime import datetime
 
-client = MongoClient('mongodb://192.168.1.184:27017')
+client = MongoClient()
 users = client.weather.users
 alert_history = client.weather.alert_history
 
