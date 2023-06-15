@@ -12,7 +12,6 @@ def below_user_min(name: str, forecast: dict) -> list:
 	else:
 		min_temp = settings.get('min_temp')
 
-	now = time.time()
 	return [
 		str(date.fromtimestamp(day['dt'])) for day in forecast['daily'] if day['temp']['min'] <= min_temp and day['dt'] > time.time()
 	]
@@ -26,7 +25,6 @@ def above_user_max(name: str, forecast: dict) -> list:
 	else:
 		max_temp = settings.get('max_temp')
 
-	now = time.time()
 	return [
 		str(date.fromtimestamp(day['dt'])) for day in forecast['daily'] if day['temp']['max'] >= max_temp and day['dt'] > time.time()
 	]
@@ -36,11 +34,17 @@ def user_min(name: str) -> float:
 	if user == None:
 		return None
 
-	return user['min'] if 'min' in user else settings.get('min_temp')
+	val = user.get('min')
+	if val is None:
+		val = settings.get('min_temp')
+	return val
 
 def user_max(name: str) -> float:
 	user = users.get(name)
 	if user == None:
 		return None
 
-	return user['max'] if 'max' in user else settings.get('max_temp')
+	val = user.get('max')
+	if val is None:
+		val = settings.get('max_temp')
+	return val
