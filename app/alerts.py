@@ -8,6 +8,8 @@ import datetime
 #Be it via a symlink, submodule, whatever.
 from application.db import init_db, notification
 
+init_db()
+
 def sent_today(name: str) -> dict:
 	user = db.users.find_one({'_id': name})
 	if user.get('last_sent') is None:
