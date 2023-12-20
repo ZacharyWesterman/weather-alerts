@@ -5,5 +5,5 @@
 		"exclude": "current,minutely,hourly"
 	},
 	"min_temp": 34.0,
-	"max_temp": 110.0
+	"max_temp": 105.0
 }
