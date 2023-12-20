@@ -2,7 +2,11 @@ from . import credentials
 from . import users
 import db
 import datetime
-from twilio.rest import Client
+
+#Import server interaction
+#This directly interacts with https://github.com/ZacharyWesterman/server!
+#Be it via a symlink, submodule, whatever.
+from application.db import init_db, notification
 
 def sent_today(name: str) -> dict:
 	user = db.users.find_one({'_id': name})
@@ -14,16 +18,8 @@ def sent_today(name: str) -> dict:
 
 	return (prev + datetime.timedelta(days=1)).date() > now.date()
 
-def send(name: str, message: str, *, log = True) -> None:
-	twilio = credentials.get('twilio')
-	account_sid = twilio.get('account_sid')
-	auth_token = twilio.get('auth_token')
-	sender = twilio.get('phone')
-	recipient = users.get(name).get('phone')
-
-	sms_client = Client(account_sid, auth_token)
-
-	result = sms_client.messages.create(body=message, from_=sender, to=recipient)
+def send(name: str, title: str, message: str, *, log = True) -> None:
+	notification.send(title, message, name, category = 'weather')
 
 	if log:
 		#Log when we last sent each person a text

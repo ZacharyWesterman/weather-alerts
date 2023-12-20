@@ -27,7 +27,8 @@ if __name__ == '__main__':
 				min = temperature.user_min(name)
 				max = temperature.user_max(name)
 
-				msg = 'ZW Automated Weather Warning:'
+				title = 'ZW Automated Weather Warning'
+				msg = ''
 				if len(below):
 					plural = '' if len(below) == 1 else 's'
 					msg += f'\nLow{plural} at or below {min}F on:\n' + '\n'.join(below)
@@ -37,7 +38,7 @@ if __name__ == '__main__':
 				msg += '\nChecking local forecasts is recommended.'
 
 				if not DRY_RUN:
-					alerts.send(name, msg)
+					alerts.send(name, title, msg)
 					if name != ADMIN:
 						sent_list += [name]
 					log_sent_list += [name]
@@ -47,7 +48,7 @@ if __name__ == '__main__':
 
 		if len(sent_list) and not DRY_RUN:
 			msg = 'Sent alerts to ' + ', '.join(sent_list)
-			alerts.send(ADMIN, msg, log = False)
+			alerts.send(ADMIN, 'Weather Alert Log:', msg, log = False)
 
 		# Always log that this pgm ran successfully
 		log(log_sent_list, None)
