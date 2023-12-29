@@ -1,14 +1,7 @@
-from . import credentials
-from . import users
 import db
 import datetime
-
-#Import server interaction
-#This directly interacts with https://github.com/ZacharyWesterman/server!
-#Be it via a symlink, submodule, whatever.
-from application.db import init_db, notification
-
-init_db()
+import credentials
+import skrunk_api
 
 def sent_today(name: str) -> dict:
 	user = db.users.find_one({'_id': name})
@@ -21,7 +14,19 @@ def sent_today(name: str) -> dict:
 	return (prev + datetime.timedelta(days=1)).date() > now.date()
 
 def send(name: str, title: str, message: str, *, log = True) -> None:
-	notification.send(title, message, name, category = 'weather')
+	cred = credentials.get('skrunk_api')
+	api = skrunk_api.Session(cred.get('api_key'), cred.get('url'))
+
+	try:
+		api.call('sendNotification', {
+			'username': name,
+			'title': title,
+			'body': message,
+			'category': 'weather',
+		})
+	except skrunk_api.SessionError as e:
+		#Should only really fail if connection to the server fails
+		print(e)
 
 	if log:
 		#Log when we last sent each person a text
