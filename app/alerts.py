@@ -1,7 +1,7 @@
 import db
 import datetime
-import credentials
 import skrunk_api
+from . import credentials
 
 def sent_today(name: str) -> dict:
 	user = db.users.find_one({'_id': name})
