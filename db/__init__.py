@@ -1,12 +1,8 @@
-__all__ = ['users', 'alert_history', 'create_user']
+__all__ = ['log', 'create_user']
 
-from pymongo import MongoClient
 import re
-from datetime import datetime
-
-client = MongoClient()
-users = client.skrunk.weather_users
-alert_history = client.skrunk.alert_history
+import skrunk_api
+from app import credentials
 
 def create_user(*, id: str, lat: float, lon: float, phone: str, exclude: bool = False) -> None:
 	phone = re.sub('[^0-9]', '', phone)
@@ -22,8 +18,10 @@ def create_user(*, id: str, lat: float, lon: float, phone: str, exclude: bool = 
 	}
 
 def log(sent_list: list, error: str) -> None:
-	client.skrunk.weather_log.insert_one({
-		'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+	cred = credentials.get('skrunk_api')
+	api = skrunk_api.Session(cred.get('api_key'), cred.get('url'))
+
+	api.call('logWeatherAlert', {
 		'users': sent_list,
 		'error': error,
 	})

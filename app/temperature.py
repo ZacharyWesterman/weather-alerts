@@ -6,9 +6,12 @@ import time
 def below_user_min(name: str, forecast: dict) -> list:
 	user = users.get(name)
 	if user.get('min') is not None:
-		if user['min'] == False:
+		if user['min'].get('disable'):
 			return []
-		min_temp = user['min']
+		elif user['min'].get('default'):
+			min_temp = settings.get('min_temp')
+		else:
+			min_temp = user['min'].get('value')
 	else:
 		min_temp = settings.get('min_temp')
 
@@ -19,9 +22,12 @@ def below_user_min(name: str, forecast: dict) -> list:
 def above_user_max(name: str, forecast: dict) -> list:
 	user = users.get(name)
 	if user.get('max') is not None:
-		if user['max'] == False:
+		if user['max'].get('disable'):
 			return []
-		max_temp = user['max']
+		elif user['max'].get('default'):
+			max_temp = settings.get('max_temp')
+		else:
+			max_temp = user['max'].get('value')
 	else:
 		max_temp = settings.get('max_temp')
 

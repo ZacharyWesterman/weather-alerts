@@ -1,10 +1,9 @@
-import db
 import datetime
 import skrunk_api
-from . import credentials
+from . import credentials, users
 
 def sent_today(name: str) -> dict:
-	user = db.users.find_one({'_id': name})
+	user = users.get(name)
 	if user.get('last_sent') is None:
 		return False
 
@@ -30,12 +29,7 @@ def send(name: str, title: str, message: str, *, log = True) -> None:
 
 	if log:
 		#Log when we last sent each person a text
-		now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-		db.users.update_one(
-			{'_id': name},
-			{'$set': {'last_sent': now}}
-		)
-		db.alert_history.insert_one({
-			'to': name,
+		api.call('logUserWeatherAlert', {
+			'username': name,
 			'message': message,
 		})
