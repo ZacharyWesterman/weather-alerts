@@ -27,9 +27,8 @@ def send(name: str, title: str, message: str, *, log = True) -> None:
 		#Should only really fail if connection to the server fails
 		print(e)
 
-	if log:
-		#Log when we last sent each person a text
-		api.call('logUserWeatherAlert', {
-			'username': name,
-			'message': message,
-		})
+	#Log when we last sent each person a text
+	api.call('logUserWeatherAlert', {
+		'username': name,
+		'message': message,
+	})
