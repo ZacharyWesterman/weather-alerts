@@ -8,7 +8,7 @@ def sent_today(name: str) -> dict:
 		return False
 
 	now = datetime.datetime.now()
-	prev = datetime.datetime.strptime(user['last_sent'], '%Y-%m-%d %H:%M:%S')
+	prev = datetime.datetime.strptime(user['last_sent'], '%a, %d %b %Y %H:%M:%S %Z')
 
 	return (prev + datetime.timedelta(days=1)).date() > now.date()
 
