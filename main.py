@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
 		if len(sent_list) and not DRY_RUN:
 			msg = 'Sent alerts to ' + ', '.join(sent_list)
-			alerts.send(ADMIN, 'Weather Alert Log:', msg, log = False)
+			alerts.notify(ADMIN, 'Weather Alert Log:', msg)
 
 		# Always log that this pgm ran successfully
 		log(log_sent_list, None)

@@ -39,18 +39,28 @@ def user_min(name: str) -> float:
 	user = users.get(name)
 	if user == None:
 		return None
+	
+	if user.get('min') is not None:
+		if user['min'].get('disable'):
+			return None
+		elif user['min'].get('default'):
+			return settings.get('min_temp')
 
-	val = user.get('min')
-	if val is None:
-		val = settings.get('min_temp')
-	return val
+		return user['min'].get('value')
+
+	return settings.get('min_temp')
 
 def user_max(name: str) -> float:
 	user = users.get(name)
 	if user == None:
 		return None
 
-	val = user.get('max')
-	if val is None:
-		val = settings.get('max_temp')
-	return val
+	if user.get('max') is not None:
+		if user['max'].get('disable'):
+			return None
+		elif user['max'].get('default'):
+			return settings.get('max_temp')
+
+		return user['max'].get('value')
+
+	return settings.get('max_temp')
