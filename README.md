@@ -1,7 +1,7 @@
 # weather-alerts
 Send automated notifications about local freezing forecasts.
 
-Note: this repo is meant to work as a runner for [ZacharyWesterman/skrunk]. As such, it interacts with the API of said server, and cannot be used without it.
+Note: this repo is meant to work as a runner for [Skrunk servers](https://github.com/ZacharyWesterman/skrunk). As such, it interacts with the API of said server, and cannot be used without it.
 
 ## Dependencies
 Run `./setup.sh` to set up the virtual environment and install dependencies.
@@ -9,7 +9,7 @@ Run `./setup.sh` to set up the virtual environment and install dependencies.
 ## Before getting started
 
 You will need an [openweathermap](https://openweathermap.org/) api key. The free option should be more than enough, but do note that the weather will be checked once for every unique latitude/longitude in the weather.users DB collection.
-You will also need an API key for [ZacharyWesterman/skrunk]. See the repo for how to set that up.
+You will also need an API key for [the Skrunk server](https://github.com/ZacharyWesterman/skrunk). See the repo for how to set that up.
 
 ## Initial setup
 
