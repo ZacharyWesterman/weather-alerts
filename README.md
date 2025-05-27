@@ -9,7 +9,7 @@ Run `./setup.sh` to set up the virtual environment and install dependencies.
 ## Before getting started
 
 You will need an [openweathermap](https://openweathermap.org/) api key. The free option should be more than enough, but do note that the weather will be checked once for every unique latitude/longitude in the weather.users DB collection.
-You will also need an API key for [ZacharyWesterman/server]. See the repo for how to set that up.
+You will also need an API key for [ZacharyWesterman/skrunk]. See the repo for how to set that up.
 
 ## Initial setup
 
