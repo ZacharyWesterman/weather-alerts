@@ -21,6 +21,8 @@ if __name__ == '__main__':
                 continue
 
             forecast = weather.fetch(lat=user.get('lat'), lon=user.get('lon'))
+            # number of future days (excluding today)
+            forecast_num_days = len(forecast['daily']) - 1
             below = temperature.below_user_min(name, forecast)
             above = temperature.above_user_max(name, forecast)
 
@@ -30,12 +32,26 @@ if __name__ == '__main__':
 
                 title = 'ZW Automated Weather Warning'
                 msg = ''
-                if len(below):
-                    plural = '' if len(below) == 1 else 's'
+
+                daytext = 'all week' if forecast_num_days == 7 else f'for {forecast_num_days} day{"s" if forecast_num_days != 1 else ""}'
+
+                plural = '' if len(below) == 1 else 's'
+                if len(below) == forecast_num_days:
+                    msg += f'Low{plural} at or below {min}F {daytext}.'
+                elif len(below) / forecast_num_days >= 0.7:
+                    msg += f'Low{plural} at or below {min}F {daytext}, EXCEPT FOR:\n'
+                elif len(below):
                     msg += f'Low{plural} at or below {min}F on:\n' + \
-                        '\n'.join(below)
-                if len(above):
-                    plural = '' if len(above) == 1 else 's'
+                        '\n'.join(temperature.above_user_min(name, forecast))
+
+                plural = '' if len(above) == 1 else 's'
+                if len(above) == forecast_num_days:
+                    msg += f'High{plural} at or above {max}F {daytext}.'
+                elif len(above) / forecast_num_days >= 0.7:
+                    print(above)
+                    msg += f'High{plural} at or above {max}F {daytext}, EXCEPT FOR:\n' + \
+                        '\n'.join(temperature.below_user_max(name, forecast))
+                elif len(above):
                     msg += f'High{plural} at or above {max}F on:\n' + \
                         '\n'.join(above)
                 msg += '\nChecking local forecasts is recommended.'
