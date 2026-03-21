@@ -10,7 +10,8 @@ if __name__ == '__main__':
 	try:
 		sent_list = []
 		ADMIN = 'zachary'
-		DRY_RUN = True if '--dry-run' in argv else False
+		DRY_RUN = '--dry-run' in argv
+		DEBUG = '--debug' in argv
 
 		for name, user in users.all():
 
@@ -51,8 +52,8 @@ if __name__ == '__main__':
 			alerts.notify(ADMIN, 'Weather Alert Log:', msg)
 
 		# Always log that this pgm ran successfully
-		log(log_sent_list, None)
+		log(log_sent_list, None, debug=DEBUG)
 
 	except Exception as e:
-		log(log_sent_list, str(e))
+		log(log_sent_list, str(e), debug=DEBUG)
 		raise e

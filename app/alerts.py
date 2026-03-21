@@ -2,7 +2,7 @@ import datetime
 import skrunk_api
 from . import credentials, users
 
-def sent_today(name: str) -> dict:
+def sent_today(name: str) -> bool:
 	user = users.get(name)
 	if user.get('last_sent') is None:
 		return False
@@ -14,22 +14,22 @@ def sent_today(name: str) -> dict:
 
 def notify(name: str, title: str, message: str) -> None:
 	cred = credentials.get('skrunk_api')
-	api = skrunk_api.Session(cred.get('api_key'), cred.get('url'))
+	api = skrunk_api.Session(cred.get('api_key', ''), cred.get('url', ''))
 
 	try:
-		api.call('sendNotification', {
-			'username': name,
-			'title': title,
-			'body': message,
-			'category': 'admin-alert',
-		})
+		api.send_notification(
+			username= name,
+			title= title,
+			body= message,
+			category= 'admin-alert',
+		)
 	except skrunk_api.SessionError as e:
 		#Should only really fail if connection to the server fails
 		print(e)
 
 def send(name: str, title: str, message: str, *, log = True) -> None:
 	cred = credentials.get('skrunk_api')
-	api = skrunk_api.Session(cred.get('api_key'), cred.get('url'))
+	api = skrunk_api.Session(cred.get('api_key', ''), cred.get('url', ''))
 
 	try:
 		api.call('sendNotification', {
@@ -43,7 +43,4 @@ def send(name: str, title: str, message: str, *, log = True) -> None:
 		print(e)
 
 	#Log when we last sent each person a text
-	api.call('logUserWeatherAlert', {
-		'username': name,
-		'message': message,
-	})
+	api.log_user_weather_alert(username = name, message = message)
