@@ -15,9 +15,13 @@ def sent_today(name: str) -> bool:
     return (prev + datetime.timedelta(days=1)).date() > now.date()
 
 
-def notify(name: str, title: str, message: str) -> None:
+def notify(name: str, title: str, message: str, debug: bool = False) -> None:
     cred = credentials.get('skrunk_api')
     api = skrunk_api.Session(cred.get('api_key', ''), cred.get('url', ''))
+
+    if debug:
+        print('NOTIFY:', name, title, message)
+        return
 
     try:
         api.send_notification(
@@ -31,17 +35,21 @@ def notify(name: str, title: str, message: str) -> None:
         print(e)
 
 
-def send(name: str, title: str, message: str, *, log=True) -> None:
+def send(name: str, title: str, message: str, *, debug: bool = True) -> None:
     cred = credentials.get('skrunk_api')
     api = skrunk_api.Session(cred.get('api_key', ''), cred.get('url', ''))
 
+    if debug:
+        print('SEND:', name, title, message)
+        return
+
     try:
-        api.call('sendNotification', {
-            'username': name,
-            'title': title,
-            'body': message,
-            'category': 'weather',
-        })
+        api.send_notification(
+            username=name,
+            title=title,
+            body=message,
+            category='admin-alert',
+        )
     except skrunk_api.SessionError as e:
         # Should only really fail if connection to the server fails
         print(e)

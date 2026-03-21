@@ -41,7 +41,7 @@ if __name__ == '__main__':
                 msg += '\nChecking local forecasts is recommended.'
 
                 if not DRY_RUN:
-                    alerts.send(name, title, msg)
+                    alerts.send(name, title, msg, debug=DEBUG)
                     if name != ADMIN:
                         sent_list += [name]
                     log_sent_list += [name]
@@ -51,7 +51,7 @@ if __name__ == '__main__':
 
         if len(sent_list) and not DRY_RUN:
             msg = 'Sent alerts to ' + ', '.join(sent_list)
-            alerts.notify(ADMIN, 'Weather Alert Log:', msg)
+            alerts.notify(ADMIN, 'Weather Alert Log:', msg, debug=DEBUG)
 
         # Always log that this pgm ran successfully
         log(log_sent_list, None, debug=DEBUG)

@@ -9,7 +9,7 @@ __users = {}
 def all() -> list:
     cred = credentials.get('skrunk_api')
     api = skrunk_api.Session(cred.get('api_key', ''), cred.get('url', ''))
-    users = [i for i in api.call('getWeatherUsers') if not i.get('exclude')]
+    users = [i for i in api.get_weather_users() if not i.get('exclude')]
 
     # Add to user cache
     for i in users:
