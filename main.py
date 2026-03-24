@@ -39,7 +39,7 @@ if __name__ == '__main__':
                 if len(below) == forecast_num_days:
                     msg += f'Low{plural} at or below {min}F {daytext}.'
                 elif len(below) / forecast_num_days >= 0.7:
-                    msg += f'Low{plural} at or below {min}F {daytext}, EXCEPT FOR:\n' \
+                    msg += f'Low{plural} at or below {min}F {daytext}, EXCEPT FOR:\n' + \
                         '\n'.join(temperature.above_user_min(name, forecast))
                 elif len(below):
                     msg += f'Low{plural} at or below {min}F on:\n' + \
@@ -49,7 +49,6 @@ if __name__ == '__main__':
                 if len(above) == forecast_num_days:
                     msg += f'High{plural} at or above {max}F {daytext}.'
                 elif len(above) / forecast_num_days >= 0.7:
-                    print(above)
                     msg += f'High{plural} at or above {max}F {daytext}, EXCEPT FOR:\n' + \
                         '\n'.join(temperature.below_user_max(name, forecast))
                 elif len(above):
